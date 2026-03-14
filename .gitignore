@@ -2,5 +2,8 @@ george-os/
 career/
 galleries/
 
+# Secrets
+.env
+
 # Mac junk
 .DS_Store

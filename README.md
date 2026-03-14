@@ -9,6 +9,7 @@ cowork/
   sop/              ← Agent-agnostic SOPs (plain markdown, the real logic)
   skills/
     claude/         ← Claude Code skill wrappers (SKILL.md)
+    gemini/         ← Gemini CLI skill wrappers (SKILL.md)
 ```
 
 Other repos cloned here (gitignored — managed separately):
@@ -71,10 +72,10 @@ export GEMINI_API_KEY="your-key-here"
 Link skills:
 
 ```bash
-gemini skills link ~/cowork/skills/claude/inventory
-gemini skills link ~/cowork/skills/claude/lri
-gemini skills link ~/cowork/skills/claude/bbp
-gemini skills link ~/cowork/skills/claude/restock
+gemini skills link ~/cowork/skills/gemini/inventory
+gemini skills link ~/cowork/skills/gemini/lri
+gemini skills link ~/cowork/skills/gemini/bbp
+gemini skills link ~/cowork/skills/gemini/restock
 ```
 
 Configure MCPs in `~/.gemini/settings.json` — see existing Linux/Mac config for credentials.
