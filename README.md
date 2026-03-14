@@ -15,6 +15,9 @@ cowork/
 Other repos cloned here (gitignored — managed separately):
 - `george-os/` — personal operating system / leadership framework
 - `career/` — career stuff
+- `kicad-happy/` — KiCad electronics skills
+
+Anything cloned inside `~/cowork/` that isn't part of this repo should be added to `.gitignore`.
 
 ## How It Works
 
@@ -80,16 +83,15 @@ gemini skills link ~/cowork/skills/gemini/restock
 
 Configure MCPs in `~/.gemini/settings.json` — see existing Linux/Mac config for credentials.
 
-### 5. KiCad skills (Mac only)
+### 5. KiCad skills
 
-KiCad skills are managed by the `kicad-happy` repo, not cowork. Clone and link separately:
+KiCad skills are managed by the `kicad-happy` repo, not cowork. Clone into `~/cowork/kicad-happy` (already gitignored) and symlink individually:
 
 ```bash
-git clone git@github.com:longrackslabs/kicad-happy.git ~/src/kicad-happy
+git clone git@github.com:longrackslabs/kicad-happy.git ~/cowork/kicad-happy
 
-# Symlink each skill
 for skill in bom digikey jlcpcb kicad lcsc mouser pcbway; do
-  ln -s ~/src/kicad-happy/$skill ~/.claude/skills/$skill
+  ln -s ~/cowork/kicad-happy/$skill ~/.claude/skills/$skill
 done
 ```
 
