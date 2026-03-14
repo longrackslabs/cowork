@@ -85,13 +85,13 @@ Configure MCPs in `~/.gemini/settings.json` — see existing Linux/Mac config fo
 
 ### 5. KiCad skills
 
-KiCad skills are managed by the `kicad-happy` repo, not cowork. Clone into `~/cowork/kicad-happy` (already gitignored) and symlink individually:
+KiCad skills are managed by the `kicad-happy` repo. It lives in `~/src/` (normal code), not `~/cowork/` (AI config). Symlink the skills into Claude:
 
 ```bash
-git clone git@github.com:longrackslabs/kicad-happy.git ~/cowork/kicad-happy
+git clone git@github.com:longrackslabs/kicad-happy.git ~/src/kicad-happy
 
 for skill in bom digikey jlcpcb kicad lcsc mouser pcbway; do
-  ln -s ~/cowork/kicad-happy/$skill ~/.claude/skills/$skill
+  ln -s ~/src/kicad-happy/$skill ~/.claude/skills/$skill
 done
 ```
 
