@@ -16,22 +16,55 @@ PATTERNS=(
     'xoxp-[0-9]+-[A-Za-z0-9]+'               # Slack user tokens
     'v\^1\.1#i\^1#[A-Za-z0-9#\^=+/]{20,}'   # eBay OAuth tokens
     'PRD-[A-Za-z0-9]{10,}'                    # eBay production secrets
+    'AKIA[0-9A-Z]{16}'                         # AWS access keys
+    '-----BEGIN.*PRIVATE KEY-----'                # PEM private keys
 )
 
-# Build a combined regex
+# Broader patterns checked separately (assignment-style, more prone to false positives)
+BROAD_PATTERNS=(
+    'API_KEY[[:space:]]*=[[:space:]]*["'"'"']'
+    'SECRET[[:space:]]*=[[:space:]]*["'"'"']'
+    'PASSWORD[[:space:]]*=[[:space:]]*["'"'"']'
+    '_TOKEN[[:space:]]*=[[:space:]]*["'"'"']'
+    'Bearer [A-Za-z0-9_.+/=-]{20,}'
+)
+
+# Build a combined regex for precise patterns
 REGEX=$(IFS='|'; echo "${PATTERNS[*]}")
 
-# Only check staged content (what's actually being committed)
-MATCHES=$(git diff --cached --diff-filter=ACMR -U0 | grep -E '^\+' | grep -v '^+++' | grep -Eo "$REGEX" 2>/dev/null)
+# Only check staged content, excluding this hook file itself
+STAGED=$(git diff --cached --diff-filter=ACMR -U0 -- . ':!scripts/hooks/pre-commit' | grep -E '^\+' | grep -v '^+++')
 
+if [ -z "$STAGED" ]; then
+    exit 0
+fi
+
+BLOCKED=""
+
+# Check precise patterns
+MATCHES=$(echo "$STAGED" | grep -Eo "$REGEX" 2>/dev/null)
 if [ -n "$MATCHES" ]; then
+    while IFS= read -r match; do
+        BLOCKED+="  ${match:0:20}...${match: -4}"$'\n'
+    done <<< "$MATCHES"
+fi
+
+# Check broad patterns individually
+for pattern in "${BROAD_PATTERNS[@]}"; do
+    MATCHES=$(echo "$STAGED" | grep -E "$pattern" 2>/dev/null)
+    if [ -n "$MATCHES" ]; then
+        while IFS= read -r line; do
+            trimmed="${line:1}"  # strip leading +
+            BLOCKED+="  ${trimmed:0:40}..."$'\n'
+        done <<< "$MATCHES"
+    fi
+done
+
+if [ -n "$BLOCKED" ]; then
     echo ""
     echo "BLOCKED: Possible secret detected in staged changes:"
     echo ""
-    echo "$MATCHES" | while read -r match; do
-        echo "  ${match:0:20}...${match: -4}"
-    done
-    echo ""
+    echo "$BLOCKED"
     echo "If this is intentional, use: git commit --no-verify"
     echo ""
     exit 1
