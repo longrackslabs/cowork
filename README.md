@@ -39,14 +39,14 @@ git clone git@github.com:longrackslabs/career.git ~/cowork/career
 
 ### 3. Claude Code
 
-Symlink skills so Claude Code picks them up:
+Symlink each skill individually (don't replace the whole `~/.claude/skills/` directory — other skills like superpowers live there too):
 
 ```bash
-# Back up existing skills if any
-mv ~/.claude/skills ~/.claude/skills.bak
-
-# Symlink
-ln -s ~/cowork/skills/claude ~/.claude/skills
+mkdir -p ~/.claude/skills
+ln -s ~/cowork/skills/claude/inventory ~/.claude/skills/inventory
+ln -s ~/cowork/skills/claude/lri ~/.claude/skills/lri
+ln -s ~/cowork/skills/claude/bbp ~/.claude/skills/bbp
+ln -s ~/cowork/skills/claude/restock ~/.claude/skills/restock
 ```
 
 ### 4. Gemini CLI
@@ -82,7 +82,16 @@ Configure MCPs in `~/.gemini/settings.json` — see existing Linux/Mac config fo
 
 ### 5. KiCad skills (Mac only)
 
-KiCad skills are managed by the `kicad-happy` repo, not cowork. Clone and link separately.
+KiCad skills are managed by the `kicad-happy` repo, not cowork. Clone and link separately:
+
+```bash
+git clone git@github.com:longrackslabs/kicad-happy.git ~/src/kicad-happy
+
+# Symlink each skill
+for skill in bom digikey jlcpcb kicad lcsc mouser pcbway; do
+  ln -s ~/src/kicad-happy/$skill ~/.claude/skills/$skill
+done
+```
 
 ## Syncing Changes
 
