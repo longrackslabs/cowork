@@ -1,30 +1,38 @@
-#!/bin/bash
-# Prevent committing files with secrets
+#!/usr/bin/env bash
+#
+# Global pre-commit hook: block commits containing API keys or secrets.
+#
 
-# Patterns that indicate secret material
+# Patterns that look like real secrets (not placeholders)
 PATTERNS=(
-  'EBAY_CLIENT_SECRET'
-  'EBAY_USER_REFRESH_TOKEN'
-  'EBAY_APP_ACCESS_TOKEN'
-  'EBAY_USER_ACCESS_TOKEN'
-  'GOOGLE_APPLICATION_CREDENTIALS.*\.json'
-  'AIza[0-9A-Za-z_-]{35}'
-  'api[_-]?key\s*=\s*["\x27][^"\x27]{10,}'
-  'secret\s*=\s*["\x27][^"\x27]{10,}'
-  'password\s*=\s*["\x27][^"\x27]{6,}'
-  'BEGIN (RSA|EC|OPENSSH) PRIVATE KEY'
+    'sk-ant-api0[0-9]-[A-Za-z0-9_-]{20,}'   # Anthropic API keys
+    'gho_[A-Za-z0-9]{30,}'                    # GitHub OAuth tokens
+    'ghp_[A-Za-z0-9]{30,}'                    # GitHub personal access tokens
+    'ghs_[A-Za-z0-9]{30,}'                    # GitHub server tokens
+    'GOCSPX-[A-Za-z0-9_-]{20,}'              # Google OAuth client secrets
+    'AIza[A-Za-z0-9_-]{30,}'                  # Google API keys
+    'sk-[A-Za-z0-9]{40,}'                     # OpenAI API keys
+    'xoxb-[0-9]+-[A-Za-z0-9]+'               # Slack bot tokens
+    'xoxp-[0-9]+-[A-Za-z0-9]+'               # Slack user tokens
+    'v\^1\.1#i\^1#[A-Za-z0-9#\^=+/]{20,}'   # eBay OAuth tokens
+    'PRD-[A-Za-z0-9]{10,}'                    # eBay production secrets
 )
 
-STAGED=$(git diff --cached --name-only)
+# Build a combined regex
+REGEX=$(IFS='|'; echo "${PATTERNS[*]}")
 
-for file in $STAGED; do
-  for pattern in "${PATTERNS[@]}"; do
-    if git show ":$file" 2>/dev/null | grep -qiE "$pattern"; then
-      echo "ERROR: Possible secret found in $file (pattern: $pattern)"
-      echo "Remove the secret before committing."
-      exit 1
-    fi
-  done
-done
+# Only check staged content (what's actually being committed)
+MATCHES=$(git diff --cached --diff-filter=ACMR -U0 | grep -E '^\+' | grep -v '^+++' | grep -Eo "$REGEX" 2>/dev/null)
 
-exit 0
+if [ -n "$MATCHES" ]; then
+    echo ""
+    echo "BLOCKED: Possible secret detected in staged changes:"
+    echo ""
+    echo "$MATCHES" | while read -r match; do
+        echo "  ${match:0:20}...${match: -4}"
+    done
+    echo ""
+    echo "If this is intentional, use: git commit --no-verify"
+    echo ""
+    exit 1
+fi
