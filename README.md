@@ -93,6 +93,18 @@ for skill in bom digikey jlcpcb kicad lcsc mouser pcbway; do
 done
 ```
 
+### 6. Git hooks (secret scanning)
+
+A global pre-commit hook blocks commits containing API keys, tokens, and credentials. Run once per machine:
+
+```bash
+bash ~/cowork/scripts/setup-hooks.sh
+```
+
+This installs `scripts/hooks/pre-commit` to `~/.git-hooks/` and sets `core.hooksPath` globally. It covers Anthropic, OpenAI, GitHub, Google, Slack, eBay, AWS keys, PEM private keys, and generic patterns like `API_KEY=`, `PASSWORD=`, etc.
+
+False positive? Use `git commit --no-verify` (with caution). To update the hook after a pull: re-run `setup-hooks.sh`.
+
 ## Syncing Changes
 
 ```bash
