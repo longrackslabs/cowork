@@ -115,4 +115,3 @@ git add -A && git commit -m "update X" && git push
 | lri | `/lri X,Y,Z` | `sop/longracks-inventory.md` |
 | restock | `/restock` | `sop/bambu-nozzle-restock.md` |
 | bbp | `/bbp` + invoice screenshot | `sop/bambu-order.md` |
-EBAY_CLIENT_SECRET="test123"
