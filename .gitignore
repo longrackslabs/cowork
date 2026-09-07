@@ -1,6 +1,12 @@
 george-os/
 career/
+ideas/
 galleries/
+
+# Convenience links (machine-local)
+Dropbox
+src
+AGENTS.md
 
 # Secrets
 .env
@@ -10,3 +16,20 @@ galleries/
 
 # Obsidian editor state
 .obsidian/
+
+# Local IDE / mempalace
+George OS.code-workspace
+entities.json
+mempalace.yaml
+
+# KiCad skill checkouts live in ~/src/kicad-happy
+skills/claude/bom
+skills/claude/digikey
+skills/claude/jlcpcb
+skills/claude/kicad
+skills/claude/lcsc
+skills/claude/mouser
+skills/claude/pcbway
+
+# Antigravity local skill links (skills.json is tracked)
+.agents/skills/

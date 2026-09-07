@@ -142,7 +142,7 @@ def main():
 
     # Update Claude settings if requested
     if args.harness in ("claude", "all"):
-        claude_settings_path = os.path.expanduser("/home/gpeden/cowork/.claude/settings.local.json")
+        claude_settings_path = os.path.expanduser("~/cowork/.claude/settings.local.json")
         if os.path.exists(claude_settings_path):
             try:
                 with open(claude_settings_path, "r") as f:
