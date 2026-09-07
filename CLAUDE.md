@@ -6,8 +6,9 @@ This file adds to ~/CLAUDE.md (shared baseline). Do not duplicate what's already
 
 | Term | Meaning |
 |------|---------|
-| **inventory** | Update stock counts per ~/cowork/sop/longracks-inventory.md (format: "inventory 2,5,3" — 0.2mm, 0.4mm, 0.6mm) — recount only |
-| **received** | Stock arrived: update counts + clear Ordered column per ~/cowork/sop/longracks-inventory.md (format: "received 2,5,3") |
+| **lr1** | Recount Gen 1 (X1/P1) stock only: updates On Hand + clears Ordered, syncs to Sheets + eBay, per ~/cowork/sop/longracks-inventory.md (format: "/lr1 2,5,3" or "/lr1 253") |
+| **lr2** | Recount Gen 2 (H2/P2S/X2D) stock only: updates On Hand + clears Ordered, syncs to Sheets + eBay, per ~/cowork/sop/longracks-inventory.md (format: "/lr2 2,5,3" or "/lr2 253") |
+| **lri** | Recount both generations: 3 digits = Gen 1 only (same as /lr1); 6 digits = Gen 1 + Gen 2 combined (first 3 = Gen 1, last 3 = Gen 2), per ~/cowork/sop/longracks-inventory.md (format: "/lri 444111") |
 | **restock** | Build Bambu Lab cart per ~/cowork/sop/bambu-nozzle-restock.md — trigger manually when GC points are ready |
 | **ordered** | Post-checkout: log purchase to ledger + update Ordered qty's per ~/cowork/sop/bambu-order.md — say "ordered" and upload invoice screenshot |
 | **Longracks Labs** | George's side hustle — eBay resale of Bambu Lab parts, longrackslabs@gmail.com |

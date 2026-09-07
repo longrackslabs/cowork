@@ -7,3 +7,6 @@ galleries/
 
 # Mac junk
 .DS_Store
+
+# Obsidian editor state
+.obsidian/
