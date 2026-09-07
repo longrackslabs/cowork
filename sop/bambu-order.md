@@ -62,7 +62,7 @@ Biz % = (Sum of business item prices) / (Grand Total)
 - Everything else: Business
 - Biz % = (98.34 - 19.99) / 98.34 = 0.7968
 
-**CRITICAL:** Enter Biz % as a percentage value like 79.68 (which displays as 79.68%). The column has percentage formatting, so entering 0.7968 will be interpreted as 0.7968% and display incorrectly as 0.80%.
+**CRITICAL:** Enter Biz % as the decimal value like 0.7968 (which displays as 79.68%). The column has percentage formatting, so entering 79.68 will be interpreted as 7968% and display incorrectly.
 
 ### Step 3: Confirm Entry with User
 
@@ -75,7 +75,7 @@ Ready to add this entry to the Ledger:
 - Cart $: 98.34
 - GC $: 0
 - Use: M (Mixed)
-- Biz %: 79.68
+- Biz %: 0.7968 (79.68%)
 
 Should I proceed?
 ```
@@ -139,7 +139,7 @@ google-sheets:batch_update_cells
 ```
 
 **CRITICAL POINTS:**
-- Enter Biz % as a percentage value like 79.68 (which displays as 79.68%). The column has percentage formatting.
+- Enter Biz % as a decimal value like 0.7968 (which displays as 79.68%). The column has percentage formatting.
 - Skip columns G, J-N - they already have formulas that will auto-calculate
 - Date format: M/D/YY (e.g., 2/5/26)
 - Type is always "Purchase"
@@ -166,8 +166,8 @@ Report the completed entry with these calculated values to the user.
 
 ## Common Issues and Solutions
 
-**Issue:** Percentages showing as 79.68 instead of 0.7968
-**Solution:** Enter as percentage value (79.68), not decimal (0.7968). The column has percentage formatting.
+**Issue:** Percentages showing as 7968% instead of 79.68%
+**Solution:** Enter as decimal value (0.7968), not percentage (79.68). The column has percentage formatting that multiplies by 100.
 
 **Issue:** Can't find next empty row
 **Solution:** Active filters may hide rows. Clear filters or check for actual last row with data
