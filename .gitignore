@@ -1,3 +1,5 @@
+longrackslabs-ops/
+longracks*/
 george-os/
 career/
 ideas/
@@ -37,3 +39,8 @@ skills/claude/pcbway
 # Claude local settings
 .claude/
 
+
+# Longracks skill links (lives in ~/cowork/longrackslabs-ops)
+skills/claude/bbp
+skills/claude/lri
+skills/claude/restock
