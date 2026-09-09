@@ -33,3 +33,7 @@ skills/claude/pcbway
 
 # Antigravity local skill links (skills.json is tracked)
 .agents/skills/
+
+# Claude local settings
+.claude/
+
